@@ -1,0 +1,40 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="{% static 'style/main.css' %}">
+    <title>Document</title>
+</head>
+
+<body>
+    <nav>
+        {% if request.user.is_authenticated %}
+        <h1>hey! {{request.user}}</h1>
+        <a href="{% url 'logout' %}">logout</a>
+        {% else %}
+        <a href="{% url 'login' %}">login</a>
+        {% endif %}
+    </nav>
+    <h1>To do list {{color}}</h1>
+    <section class="todo-list">
+    <ol>
+        {% for task in tasks %}
+        <li>
+            <p>{{task.title}}</p>
+            <p><a href="{% url 'task' task.id%}">view</a></p>
+            <p><a href="{% url 'task-update' task.id%}"><img src="{% static 'images/pen.svg' %}"></a></p>
+            <p><a href="{% url 'task-delete' task.id%}"><img src="{% static 'images/delete.svg' %}"></a></p>
+        </li>
+        {% empty %}
+        <h3 class="empty-para">You have nothing to do! add something</h3>
+        {% endfor %}
+    </ol>
+    <a href="{% url 'task-create' %}" class="add-link">Create new task<img src="{% static 'images/add.png' %}"></a>
+   </section>
+</body>
+
+</html>
